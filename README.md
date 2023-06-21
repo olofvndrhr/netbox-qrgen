@@ -1,6 +1,6 @@
-# netbox_qrgen - python script to download mangas
+# netbox_qrgen
 
-> Full docs: https://netbox_qrgen.ivn.sh
+NetBox plugin to generate QR codes for assets
 
 CI/CD
 
