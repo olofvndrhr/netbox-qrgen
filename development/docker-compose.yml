@@ -1,0 +1,85 @@
+version: "3"
+
+x-netbox:
+  &netbox
+  image: netbox-dev:3.5
+  build: .
+  restart: unless-stopped
+  user: "unit:root"
+  env_file: config.env
+  security_opt: [ "no-new-privileges:true" ]
+  networks:
+    - netbox
+  volumes:
+    - ./config/:/etc/netbox/config/:ro
+    - ./reports/:/opt/netbox/netbox/reports/
+    - ./scripts/:/opt/netbox/netbox/scripts/
+    - ./media/:/opt/netbox/netbox/media/
+
+services:
+
+  web:
+    <<: *netbox
+    container_name: netbox-dev-web
+    security_opt: [ "no-new-privileges:true" ]
+    depends_on:
+      - db
+      - redis
+    ports:
+      - "8080:8080"
+
+  worker:
+    <<: *netbox
+    container_name: netbox-dev-worker
+    depends_on:
+      - web
+    command:
+      [
+        "/opt/netbox/venv/bin/python",
+        "/opt/netbox/netbox/manage.py",
+        "rqworker"
+      ]
+
+  housekeeping:
+    <<: *netbox
+    container_name: netbox-dev-housekeeping
+    depends_on:
+      - web
+    command: [ "/opt/netbox/housekeeping.sh" ]
+
+  db:
+    image: bitnami/postgresql:14.6.0
+    container_name: netbox-dev-db
+    restart: unless-stopped
+    security_opt: [ "no-new-privileges:true" ]
+    user: "1000"
+    networks:
+      - netbox
+    volumes:
+      - ./db-data/:/bitnami/postgresql/
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Europe/Zurich
+      - POSTGRESQL_POSTGRES_PASSWORD=${DB_ROOT_PASSWORD}
+      - POSTGRES_DB=netbox
+      - POSTGRES_USER=netbox
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+
+  redis:
+    image: bitnami/redis:7.0
+    container_name: netbox-dev-redis
+    restart: unless-stopped
+    security_opt: [ "no-new-privileges:true" ]
+    user: "1000"
+    networks:
+      - netbox
+    volumes:
+      - ./redis-data/:/bitnami/redis/data/
+    environment:
+      - TZ=Europe/Zurich
+      - ALLOW_EMPTY_PASSWORD=yes
+
+networks:
+  netbox:
+    name: netbox-dev
+    driver: bridge

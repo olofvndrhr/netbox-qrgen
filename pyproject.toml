@@ -1,0 +1,142 @@
+[build-system]
+requires      = ["hatchling>=1.11.0"]
+build-backend = "hatchling.build"
+
+[project]
+dynamic = ["version"]
+name = "netbox-qrgen"
+description = "A netbox plugin to generate qrcodes for assets"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+authors = [{ name = "Ivan Schaller", email = "ivan@schaller.sh" }]
+keywords = ["netbox", "plugin", "qrcode"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+dependencies = ["qrcode>=7.4.2", "pillow>=9.5.0"]
+
+[project.urls]
+Homepage = "https://github.com/olofvndrhr/manga-dlp"
+History  = "https://github.com/olofvndrhr/manga-dlp/commits/master"
+Tracker  = "https://github.com/olofvndrhr/manga-dlp/issues"
+Source   = "https://github.com/olofvndrhr/manga-dlp"
+
+[tool.hatch.version]
+path = "netbox_qrgen/__about__.py"
+
+[tool.hatch.build]
+ignore-vcs = true
+
+[tool.hatch.build.targets.sdist]
+packages = ["netbox_qrgen"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["netbox_qrgen"]
+
+# black
+
+[tool.black]
+line-length    = 100
+target-version = ["py39"]
+
+# pyright
+
+[tool.pyright]
+typeCheckingMode                   = "basic"
+pythonVersion                      = "3.9"
+reportUnnecessaryTypeIgnoreComment = true
+reportShadowedImports              = true
+reportUnusedExpression             = true
+reportMatchNotExhaustive           = true
+# venvPath         = "."
+# venv             = "venv"
+
+# ruff
+
+[tool.ruff]
+target-version = "py39"
+select = [
+    "E",   # pycodetyle err
+    "W",   # pycodetyle warn
+    "D",   # pydocstyle
+    "C90", # mccabe
+    "I",   # isort
+    "PLE", # pylint err
+    "PLW", # pylint warn
+    "PLC", # pylint convention
+    "PLR", # pylint refactor
+    "F",   # pyflakes
+    "RUF", # ruff specific
+]
+line-length = 100
+fix = true
+show-fixes = true
+format = "grouped"
+ignore-init-module-imports = true
+respect-gitignore = true
+ignore = ["E501", "D103", "D100", "D102", "PLR2004", "D403"]
+#unfixable = ["F401"]
+exclude = [
+    ".direnv",
+    ".git",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".svn",
+    ".venv",
+    "venv",
+    "__pypackages__",
+    "build",
+    "dist",
+    "venv",
+]
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["D104"]
+
+[tool.ruff.pylint]
+max-args = 10
+
+[tool.ruff.mccabe]
+max-complexity = 10
+
+[tool.ruff.pydocstyle]
+convention = "google"
+
+[tool.ruff.pycodestyle]
+max-doc-length = 100
+
+# pytest
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+# coverage
+
+[tool.coverage.run]
+source       = ["mangadlp"]
+branch       = true
+command_line = "-m pytest --exitfirst"
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_lines = [
+    # Have to re-enable the standard pragma
+    "pragma: no cover",
+    # Don't complain about missing debug-only code:
+    "def __repr__",
+    "if self.debug",
+    # Don't complain if tests don't hit defensive assertion code:
+    "raise AssertionError",
+    "raise NotImplementedError",
+    # Don't complain if non-runnable code isn't run:
+    "if 0:",
+    "if __name__ == .__main__.:",
+    # Don't complain about abstract methods, they aren't run:
+    "@(abc.)?abstractmethod",
+]
+ignore_errors = true

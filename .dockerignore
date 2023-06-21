@@ -1,0 +1,5 @@
+development/
+dist/
+.*/
+
+!development/config/

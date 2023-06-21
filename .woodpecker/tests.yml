@@ -1,0 +1,51 @@
+##############################
+# code testing and analysis #
+#############################
+# branch: all
+# event: all
+
+platform: linux/amd64
+
+clone:
+  git:
+    image: woodpeckerci/plugin-git:v1.6.0
+
+pipeline:
+  # check code style - shell
+  test-shfmt:
+    image: cr.44net.ch/ci-plugins/tests
+    pull: true
+    commands:
+      - just test_shfmt
+
+  # check code style - python
+  test-black:
+    image: cr.44net.ch/ci-plugins/tests
+    pull: true
+    commands:
+      - just test_black
+
+  # check static typing - python
+  test-pyright:
+    image: cr.44net.ch/ci-plugins/tests
+    pull: true
+    commands:
+      - just install_deps
+      - just test_pyright
+
+  # ruff test - python
+  test-ruff:
+    image: cr.44net.ch/ci-plugins/tests
+    pull: true
+    commands:
+      - just test_ruff
+
+  # analyse code with sonarqube and upload it
+  sonarqube-analysis:
+    image: cr.44net.ch/ci-plugins/sonar-scanner
+    pull: true
+    settings:
+      sonar_host: https://sonarqube.44net.ch
+      sonar_token:
+        from_secret: sq-44net-token
+      usingProperties: true
