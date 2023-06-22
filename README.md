@@ -4,7 +4,7 @@ NetBox plugin to generate QR codes for assets
 
 CI/CD
 
-[![status-badge](https://img.shields.io/drone/build/olofvndrhr/netbox_qrgen?label=tests&server=https%3A%2F%2Fci.44net.ch)](https://ci.44net.ch/olofvndrhr/netbox_qrgen)
+[![status-badge](https://img.shields.io/drone/build/olofvndrhr/netbox_qrgen?label=ci&server=https%3A%2F%2Fci.44net.ch)](https://ci.44net.ch/olofvndrhr/netbox_qrgen)
 [![Last Release](https://img.shields.io/github/release-date/olofvndrhr/netbox_qrgen?label=last%20release)](https://github.com/olofvndrhr/netbox_qrgen/releases)
 [![Version](https://img.shields.io/github/v/release/olofvndrhr/netbox_qrgen?label=git%20release)](https://github.com/olofvndrhr/netbox_qrgen/releases)
 [![Version PyPi](https://img.shields.io/pypi/v/netbox_qrgen?label=pypi%20release)](https://pypi.org/project/netbox_qrgen/)
@@ -12,9 +12,7 @@ CI/CD
 Code Analysis
 
 [![Quality Gate Status](https://sonarqube.44net.ch/api/project_badges/measure?project=olofvndrhr%3Anetbox_qrgen&metric=alert_status&token=f9558470580eea5b4899cf33f190eee16011346d)](https://sonarqube.44net.ch/dashboard?id=olofvndrhr%3Anetbox_qrgen)
-[![Coverage](https://sonarqube.44net.ch/api/project_badges/measure?project=olofvndrhr%3Anetbox_qrgen&metric=coverage&token=f9558470580eea5b4899cf33f190eee16011346d)](https://sonarqube.44net.ch/dashboard?id=olofvndrhr%3Anetbox_qrgen)
 [![Bugs](https://sonarqube.44net.ch/api/project_badges/measure?project=olofvndrhr%3Anetbox_qrgen&metric=bugs&token=f9558470580eea5b4899cf33f190eee16011346d)](https://sonarqube.44net.ch/dashboard?id=olofvndrhr%3Anetbox_qrgen)
-[![Security](https://img.shields.io/snyk/vulnerabilities/github/olofvndrhr/netbox_qrgen)](https://app.snyk.io/org/olofvndrhr-t6h/project/aae9609d-a4e4-41f8-b1ac-f2561b2ad4e3)
 
 Meta
 
@@ -34,47 +32,104 @@ test
 
 -   test
 
-## Usage
+## Compatibility
 
-### With GitHub
+This plugin requires Netbox version >=3.3 to work. (Older versions are not tested)
 
-```sh
-git clone https://github.com/olofvndrhr/netbox_qrgen.git # clone the repository
+| NetBox Version | Plugin Version |
+| -------------- | -------------- |
+| 3.3            | >=0.0.1        |
+| 3.4            | >=0.0.1        |
+| 3.5            | >=0.0.1        |
 
-cd netbox_qrgen # go in the directory
+## Installing
 
-pip install -r requirements.txt # install required packages
-
-# on windows
-python netbox_qrgen.py <options>
-# on unix
-python3 netbox_qrgen.py <options>
-```
+Review the [official Netbox plugin documentation](https://docs.netbox.dev/en/stable/plugins/#installing-plugins) for installation instructions.
 
 ### With pip ([pypi](https://pypi.org/project/netbox_qrgen/))
 
 ```sh
-python3 -m pip install netbox_qrgen # download the package from pypi
-
-python3 -m mangadlp <args> # start the script as a module
-OR
-netbox_qrgen <args> # call script directly
-OR
-mangadlp <args> # call script directly
+/opt/netbox/venv/bin/pip install --no-warn-script-location netbox-qrgen
 ```
+
+### In the netbox docker container
+
+For adding to a NetBox Docker setup see
+[the general instructions for using netbox-docker with plugins](https://github.com/netbox-community/netbox-docker/wiki/Using-Netbox-Plugins).
+
+```sh
+FROM netboxcommunity/netbox:v3.5.4
+
+RUN \
+    && /opt/netbox/venv/bin/pip install --no-warn-script-location \
+    netbox-qrgen
+```
+
+## Configuration
+
+```yml
+PLUGINS = [
+    'netbox_qrgen_'
+]
+
+# default settings
+PLUGINS_CONFIG = {
+    "netbox_qrgen": {
+        "qr_with_text": True,
+        "qr_text_fields": ["name", "serial"],
+        "qr_font": "Tahoma",
+        "qr_custom_text": None,
+        "qr_text_location": "right",
+        "qr_version": 2,
+        "qr_error_correction": 1,
+        "qr_box_size": 6,
+        "qr_border_size": 4,
+        "labels": {
+            "dcim.cable": [
+                "tenant",
+                "a_terminations.device",
+                "a_terminations.name",
+                "b_terminations.device",
+                "b_terminations.name",
+            ],
+            "dcim.rack": [
+                "tenant",
+                "site",
+                "facility_id",
+                "name",
+            ],
+            "dcim.device": ["tenant", "name", "serial"],
+            "dcim.inventoryitem": ["tenant", "name", "serial"],
+            "circuits.circuit": ["tenant", "name", "serial"],
+        },
+    },
+}
+```
+
+### Custom settings
+
+| Setting               | Type        | Default value        | Description                                                                                                                                                                                                                                                                          |
+| --------------------- | ----------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `qr_with_text`        | `bool`      | `True`               | Generate a text with the specified infos besides the QR code.                                                                                                                                                                                                                        |
+| `qr_text_fields`      | `list[str]` | `["name", "serial"]` | Fields to add as a text to the QR code. All object properties can be used.                                                                                                                                                                                                           |
+| `qr_font`             | `str`       | `'Tahoma'`           | Font to use to generate the text. Included fonts: `ArialBlack`,`ArialMT`,`JetBrainsMono`,`JetBrainsMonoBold`,`Tahoma`,`TahomaBold`.                                                                                                                                                  |
+| `qr_custom_text`      | `str`       | `None`               | Custom text to be added to every QR code.                                                                                                                                                                                                                                            |
+| `qr_text_location`    | `str`       | `right`              | Where the text fields are rendered relative to the QR code                                                                                                                                                                                                                           |
+| `qr_version`          | `int`       | `2`                  | An integer from 1 to 40 that controls the size of the QR Code (the smallest, version 1, is a 21x21 matrix). More details [here](https://www.qrcode.com/en/about/version.html)                                                                                                        |
+| `qr_error_correction` | `int`       | `1`                  | Error corrector for the QR code. Available options: `1`,`2`,`3`,`4`. See [the package docs](https://github.com/lincolnloop/python-qrcode#advanced-usage) for more details. The integer mapping is [here](https://github.com/lincolnloop/python-qrcode/blob/main/qrcode/constants.py) |
+| `qr_box_size`         | `int`       | `6`                  | Controls how many pixels each "box" of the QR code is                                                                                                                                                                                                                                |
+| `qr_border_size`      | `int`       | `4`                  | controls how many boxes thick the border should be (the default is 4, which is the minimum according to the specs).                                                                                                                                                                  |
 
 ## Contribution / Bugs
 
 For suggestions for improvement, just open a pull request.
-
-If you want to add support for a new site, there is an api [template file](contrib/api_template.py) which you can use.
-And more infos and tools are in the contrib [README.md](contrib/README.md)
-
-Otherwise, you can open an issue with the name of the site which you want support for (not guaranteed to be
-implemented).
 
 If you encounter any bugs, also just open an issue with a description of the problem.
 
 ## TODO's
 
 -   test
+
+```
+
+```
