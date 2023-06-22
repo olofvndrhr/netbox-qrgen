@@ -53,6 +53,7 @@ reportUnnecessaryTypeIgnoreComment = true
 reportShadowedImports              = true
 reportUnusedExpression             = true
 reportMatchNotExhaustive           = true
+reportMissingImports               = false
 # venvPath         = "."
 # venv             = "venv"
 
