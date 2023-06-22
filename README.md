@@ -1,18 +1,18 @@
-# netbox_qrgen
+# netbox-qrgen
 
 NetBox plugin to generate QR codes for assets
 
 CI/CD
 
-[![status-badge](https://img.shields.io/drone/build/olofvndrhr/netbox_qrgen?label=ci&server=https%3A%2F%2Fci.44net.ch)](https://ci.44net.ch/olofvndrhr/netbox_qrgen)
-[![Last Release](https://img.shields.io/github/release-date/olofvndrhr/netbox_qrgen?label=last%20release)](https://github.com/olofvndrhr/netbox_qrgen/releases)
-[![Version](https://img.shields.io/github/v/release/olofvndrhr/netbox_qrgen?label=git%20release)](https://github.com/olofvndrhr/netbox_qrgen/releases)
-[![Version PyPi](https://img.shields.io/pypi/v/netbox_qrgen?label=pypi%20release)](https://pypi.org/project/netbox_qrgen/)
+[![status-badge](https://img.shields.io/drone/build/olofvndrhr/netbox-qrgen?label=ci&server=https%3A%2F%2Fci.44net.ch)](https://ci.44net.ch/olofvndrhr/netbox-qrgen)
+[![Last Release](https://img.shields.io/github/release-date/olofvndrhr/netbox-qrgen?label=last%20release)](https://github.com/olofvndrhr/netbox-qrgen/releases)
+[![Version](https://img.shields.io/github/v/release/olofvndrhr/netbox-qrgen?label=git%20release)](https://github.com/olofvndrhr/netbox-qrgen/releases)
+[![Version PyPi](https://img.shields.io/pypi/v/netbox-qrgen?label=pypi%20release)](https://pypi.org/project/netbox-qrgen/)
 
 Code Analysis
 
-[![Quality Gate Status](https://sonarqube.44net.ch/api/project_badges/measure?project=olofvndrhr%3Anetbox_qrgen&metric=alert_status&token=f9558470580eea5b4899cf33f190eee16011346d)](https://sonarqube.44net.ch/dashboard?id=olofvndrhr%3Anetbox_qrgen)
-[![Bugs](https://sonarqube.44net.ch/api/project_badges/measure?project=olofvndrhr%3Anetbox_qrgen&metric=bugs&token=f9558470580eea5b4899cf33f190eee16011346d)](https://sonarqube.44net.ch/dashboard?id=olofvndrhr%3Anetbox_qrgen)
+[![Quality Gate Status](https://sonarqube.44net.ch/api/project_badges/measure?project=olofvndrhr%3Anetbox-qrgen&metric=alert_status&token=a9eb06d77cd040196db73654fa8916d8a9ad9172)](https://sonarqube.44net.ch/dashboard?id=olofvndrhr%3Anetbox-qrgen)
+[![Bugs](https://sonarqube.44net.ch/api/project_badges/measure?project=olofvndrhr%3Anetbox-qrgen&metric=bugs&token=a9eb06d77cd040196db73654fa8916d8a9ad9172)](https://sonarqube.44net.ch/dashboard?id=olofvndrhr%3Anetbox-qrgen)
 
 Meta
 
@@ -20,7 +20,7 @@ Meta
 [![Linter](https://img.shields.io/badge/linter-ruff-red)](https://github.com/charliermarsh/ruff)
 [![Types](https://img.shields.io/badge/types-pyright-blue)](https://github.com/microsoft/pyright)
 [![License](https://img.shields.io/badge/license-MIT-9400d3.svg)](https://snyk.io/learn/what-is-mit-license/)
-[![Compatibility](https://img.shields.io/pypi/pyversions/netbox_qrgen)](https://pypi.org/project/netbox_qrgen/)
+[![Compatibility](https://img.shields.io/pypi/pyversions/netbox-qrgen)](https://pypi.org/project/netbox-qrgen/)
 
 ---
 
@@ -46,7 +46,7 @@ This plugin requires Netbox version >=3.3 to work. (Older versions are not teste
 
 Review the [official Netbox plugin documentation](https://docs.netbox.dev/en/stable/plugins/#installing-plugins) for installation instructions.
 
-### With pip ([pypi](https://pypi.org/project/netbox_qrgen/))
+### With pip ([pypi](https://pypi.org/project/netbox-qrgen/))
 
 ```sh
 /opt/netbox/venv/bin/pip install --no-warn-script-location netbox-qrgen
