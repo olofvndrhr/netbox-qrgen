@@ -83,13 +83,13 @@ test_shfmt:
     @find . -type f \( -name "**.sh" -and -not -path "./.**" -and -not -path "./venv**" \) -exec shfmt -d -i 4 -bn -ci -sr "{}" \+;
 
 test_black:
-    @python3 -m black --check --diff .
+    @python3 -m black --check --diff netbox_qrgen/
 
 test_pyright:
-    @python3 -m pyright .
+    @python3 -m pyright netbox_qrgen/
 
 test_ruff:
-    @python3 -m ruff --diff .
+    @python3 -m ruff --diff netbox_qrgen/
 
 test_ci_conf:
     @woodpecker-cli lint .woodpecker/

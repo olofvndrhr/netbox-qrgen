@@ -1,0 +1,10 @@
+pre-commit:
+  commands:
+    01_ruff:
+      stage_fixed: true
+      glob: "*.py"
+      run: python3 -m ruff --fix-only --exit-zero --silent {all_files}
+    02_black:
+      stage_fixed: true
+      glob: "*.py"
+      run: python3 -m black --quiet {all_files}
