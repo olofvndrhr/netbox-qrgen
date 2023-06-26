@@ -2,6 +2,8 @@
 
 NetBox plugin to generate QR codes for assets
 
+> Based on/inspired by: [k01ek/netbox-qrcode](https://github.com/k01ek/netbox-qrcode)
+
 CI/CD
 
 [![status-badge](https://img.shields.io/drone/build/olofvndrhr/netbox-qrgen?label=ci&server=https%3A%2F%2Fci.44net.ch)](https://ci.44net.ch/olofvndrhr/netbox-qrgen)
@@ -30,7 +32,9 @@ test
 
 ## Features (not complete)
 
--   test
+-   Generate QR Codes for your assets
+-   Download them either as PNG or SVG
+-   Directly print them via the Web interface
 
 ## Compatibility
 
@@ -52,7 +56,7 @@ Review the [official Netbox plugin documentation](https://docs.netbox.dev/en/sta
 /opt/netbox/venv/bin/pip install --no-warn-script-location netbox-qrgen
 ```
 
-### In the netbox docker container
+### In the Netbox docker container
 
 For adding to a NetBox Docker setup see
 [the general instructions for using netbox-docker with plugins](https://github.com/netbox-community/netbox-docker/wiki/Using-Netbox-Plugins).
@@ -78,6 +82,7 @@ PLUGINS_CONFIG = {
         "qr_with_text": True,
         "qr_text_fields": ["name", "serial"],
         "qr_font": "Tahoma",
+        "qr_width": "200px",
         "qr_custom_text": None,
         "qr_text_location": "right",
         "qr_version": 2,
@@ -112,7 +117,8 @@ PLUGINS_CONFIG = {
 | --------------------- | ----------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `qr_with_text`        | `bool`      | `True`               | Generate a text with the specified infos besides the QR code.                                                                                                                                                                                                                        |
 | `qr_text_fields`      | `list[str]` | `["name", "serial"]` | Fields to add as a text to the QR code. All object properties can be used.                                                                                                                                                                                                           |
-| `qr_font`             | `str`       | `'Tahoma'`           | Font to use to generate the text. Included fonts: `ArialBlack`,`ArialMT`,`JetBrainsMono`,`JetBrainsMonoBold`,`Tahoma`,`TahomaBold`.                                                                                                                                                  |
+| `qr_font`             | `str`       | `Tahoma`             | Font to use to generate the text. Included fonts: `ArialBlack`,`ArialMT`,`JetBrainsMono`,`JetBrainsMonoBold`,`Tahoma`,`TahomaBold`.                                                                                                                                                  |
+| `qr_width`            | `str`       | `200px`              | Size for the SVG image to render. Can be any HTML valid size.                                                                                                                                                                                                                        |
 | `qr_custom_text`      | `str`       | `None`               | Custom text to be added to every QR code.                                                                                                                                                                                                                                            |
 | `qr_text_location`    | `str`       | `right`              | Where the text fields are rendered relative to the QR code                                                                                                                                                                                                                           |
 | `qr_version`          | `int`       | `2`                  | An integer from 1 to 40 that controls the size of the QR Code (the smallest, version 1, is a 21x21 matrix). More details [here](https://www.qrcode.com/en/about/version.html)                                                                                                        |
@@ -129,7 +135,3 @@ If you encounter any bugs, also just open an issue with a description of the pro
 ## TODO's
 
 -   test
-
-```
-
-```

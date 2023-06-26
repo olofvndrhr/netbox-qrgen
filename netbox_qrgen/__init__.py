@@ -14,6 +14,7 @@ class NetBoxQRGenConfig(PluginConfig):
         "qr_with_text": True,
         "qr_text_fields": ["name", "serial"],
         "qr_font": "Tahoma",
+        "qr_width": "200px",
         "qr_custom_text": None,
         "qr_text_location": "right",
         "qr_version": 2,

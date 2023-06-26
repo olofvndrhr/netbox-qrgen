@@ -12,11 +12,21 @@
 <div class="card">
     <h5 class="card-header">QR Code</h5>
     <div class="card-body text-right noprint">
-        <img src="data:image/png;base64,{{image}}" />
+        <img
+            width="{{image_width}}"
+            src="data:image/svg+xml;base64,{{image_svg}}"
+        />
     </div>
     <div class="card-footer text-end noprint">
         <button
-            onclick="printImg('data:image/png;base64,{{image}}')"
+            onclick="window.open('data:image/png;base64,{{image_png}}', '_blank').focus();"
+            ;
+            class="btn btn-xs btn-primary"
+        >
+            <span class="mdi mdi-download" aria-hidden="true"></span> Get PNG
+        </button>
+        <button
+            onclick="printImg('data:image/svg+xml;base64,{{image_svg}}')"
             ;
             class="btn btn-xs btn-primary"
         >

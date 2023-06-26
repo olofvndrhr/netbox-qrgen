@@ -7,50 +7,50 @@ plugin_settings = settings.PLUGINS_CONFIG.get("netbox_qrgen", {})
 
 
 class QRGen(PluginTemplateExtension):
-    def get_url(self) -> str:
+    def _get_url(self) -> str:
         obj = self.context["object"]
         request = self.context["request"]
         url: str = request.build_absolute_uri(obj.get_absolute_url())
 
         return url
 
-    def get_qrcode(self, url: str) -> str:
-        img = generate_qrcode(url=url, **plugin_settings)
-        b64 = get_base64(img)
+    def _get_qrcode(self, url: str) -> tuple[str, str]:
+        img_png, img_svg = generate_qrcode(url=url, **plugin_settings)
+        b64_png = get_base64(img_png)
+        b64_svg = get_base64(img_svg)
 
-        return b64
+        return b64_png, b64_svg
 
     def right_page(self):
-        qr_img = self.get_qrcode(self.get_url())
+        b64_png, b64_svg = self._get_qrcode(self._get_url())
         return self.render(
             "netbox_qrgen/qrgen.html",
-            extra_context={"image": qr_img},
+            extra_context={
+                "image_width": plugin_settings["qr_width"],
+                "image_png": b64_png,
+                "image_svg": b64_svg,
+            },
         )
 
 
 class QRGenDevice(QRGen):
     model = "dcim.device"
-    # kind = "device"
 
 
 class QRGenRack(QRGen):
     model = "dcim.rack"
-    # kind = "rack"
 
 
 class QRGenCable(QRGen):
     model = "dcim.cable"
-    # kind = "cable"
 
 
 class QRGenInventoryItem(QRGen):
     model = "dcim.inventoryitem"
-    # kind = "inventoryitem"
 
 
 class QRGenCircuit(QRGen):
     model = "circuits.circuit"
-    # kind = "circuit"
 
 
 template_extensions = [

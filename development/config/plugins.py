@@ -21,6 +21,7 @@ PLUGINS_CONFIG = {
         "qr_with_text": True,
         "qr_text_fields": ["name", "serial"],
         "qr_font": "TahomaBold",
+        "qr_width": "200px",
         "qr_custom_text": None,
         "qr_text_location": "bottom",
         "qr_version": 2,
