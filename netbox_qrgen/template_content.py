@@ -33,12 +33,24 @@ class QRGen(PluginTemplateExtension):
         )
 
 
-class QRGenDevice(QRGen):
-    model = "dcim.device"
+class QRGenLocation(QRGen):
+    model = "dcim.location"
 
 
 class QRGenRack(QRGen):
     model = "dcim.rack"
+
+
+class QRGenDevice(QRGen):
+    model = "dcim.device"
+
+
+class QRGenPowerFeed(QRGen):
+    model = "dcim.powerfeed"
+
+
+class QRGenPowerPanel(QRGen):
+    model = "dcim.powerpanel"
 
 
 class QRGenCable(QRGen):
@@ -53,10 +65,28 @@ class QRGenCircuit(QRGen):
     model = "circuits.circuit"
 
 
+class QRGenVirtualizationCluster(QRGen):
+    model = "virtualization.cluster"
+
+
+class QRGenPluginInventoryAsset(QRGen):
+    model = "netbox_inventory.asset"
+
+
+class QRGenPluginInventoryItemType(QRGen):
+    model = "netbox_inventory.inventoryitemtype"
+
+
 template_extensions = [
-    QRGenDevice,
+    QRGenLocation,
     QRGenRack,
+    QRGenDevice,
+    QRGenPowerFeed,
+    QRGenPowerPanel,
     QRGenCable,
     QRGenInventoryItem,
     QRGenCircuit,
+    QRGenVirtualizationCluster,
+    QRGenPluginInventoryAsset,
+    QRGenPluginInventoryItemType,
 ]
